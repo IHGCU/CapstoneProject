@@ -9,5 +9,5 @@ The files contained in this repository are:
 3. CNNforDRUJCombinedViewReducedResolution.ipynb - a Jupyter notebook that defines, trains, and saves the parameters for a CNN
 4. DRUJClassification.ipynb - a Jupyter notebook that takes the saved CNN parameters and three x-ray views of a fracture and classifies the fracture as a Type I, Type II, or Type III fracture. 
 5. TestCases - a folder that contains DICOM images for 5 test cases
-6. model.h5 - a file with the saved model parameters
+6. model.h5 - a file with the saved model parameters NOTE: THIS FILE WAS TOO LARGE TO UPLOAD! The DRUJClassification.ipynb notebook will not run without it. I have uploaded it to my Google drive. If anyone is interested in running the classifier, please email me at laurieinmukono@gmail.com. I will share the file with you. 
 7. model.json - a file with the saved model characteristics
