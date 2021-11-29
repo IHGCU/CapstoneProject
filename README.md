@@ -7,7 +7,7 @@ The files contained in this repository are:
 1. Subjects 001 to 005.ipynb - a Jupyter notebook showing how the images were converted from DICOM format to numpy arrays, cropped, and saved as CSV files.
 2. DataPrepforDRUJ.ipynb - a Jupyter notebook showing how the CSV files were saved as a single array for processing with the Convolutional Neural Network (CNN).
 3. CNNforDRUJCombinedViewReducedResolution.ipynb - a Jupyter notebook that defines, trains, and saves the parameters for a CNN
-4. DRUJClassification.ipynb - a Jupyter notebood that takes the saved CNN parameters and three x-ray views of a fracture and classifies the fracture as a Type I, Type II, or Type III fracture. 
+4. DRUJClassification.ipynb - a Jupyter notebook that takes the saved CNN parameters and three x-ray views of a fracture and classifies the fracture as a Type I, Type II, or Type III fracture. 
 5. TestCases - a folder that contains DICOM images for 5 test cases
 6. model.h5 - a file with the saved model parameters
 7. model.json - a file with the saved model characteristics
