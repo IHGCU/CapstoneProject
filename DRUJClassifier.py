@@ -38,17 +38,9 @@ def read_xray(path, voi_lut = True, fix_monochrome = True):
 
 # Filenames for DICOM images
 
-# filename01 = 'TestCases\Subject002\PAView'
-# filename02 = 'TestCases\Subject002\ObliqueView'
-# filename03 = 'TestCases\Subject002\LateralView'
-
-from tkinter import Tk     # from tkinter import Tk for Python 3.x
-from tkinter.filedialog import askopenfilename
-
-Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-filename01 = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-filename02 = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-filename03 = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+filename01 = 'TestCases\Subject001\PAView'
+filename02 = 'TestCases\Subject001\ObliqueView'
+filename03 = 'TestCases\Subject001\LateralView'
 
 # Load and look at the images
 
@@ -105,13 +97,12 @@ ComboReduce = np.reshape(ComboReduce,(1,500,1050,1))
 # Load and run the model
 
 # load json and create model
-json_file = open('model20211129a.json', 'r')
+json_file = open('model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
-loaded_model.load_weights("model20211129a.h5")
-print(" ")
+loaded_model.load_weights("model.h5")
 print("Loaded model from disk")
 # evaluate loaded model on test data
 loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
@@ -122,8 +113,6 @@ loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['
 
 predict_x=loaded_model.predict(ComboReduce)
 classes_x=np.argmax(predict_x,axis=1)
-
-print(" ")
 if classes_x==0:
     print("Type of fracture is I")
 else:
