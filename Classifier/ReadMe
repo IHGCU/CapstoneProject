@@ -1,1 +1,2 @@
 This folder contains images of typical type I, II, and III fractures.
+When the files are downloaded to run the classifier - DRUJClassifier.py - the model.json and model.h5 files should be saved to this folder also. 
