@@ -11,4 +11,5 @@ The files contained in this repository are:
 5. TestCases - a folder that contains DICOM images for 5 test cases
 6. model.h5 - a file with the saved model parameters NOTE: THIS FILE WAS TOO LARGE TO UPLOAD! The DRUJClassification.ipynb notebook will not run without it. I have uploaded it to my Google drive. If anyone is interested in running the classifier, please email me at laurieinmukono@gmail.com. I will share the file with you. 
 7. model.json - a file with the saved model characteristics
-8. DRUJClassifier.py - A Python script for running the classifier. This file requires the test cases and the model characteristics and model weights to run. 
+8. DRUJClassifier.py - A Python script for running the classifier. This file requires the test cases and the model characteristics and model weights to run. There are also images of typical type I, II, and III fractures that are needed. They are in the Classifier folder. This file implements some elements of the GUI. 
+9. Classifier - a folder that contains images of typical type I, II, and III fractures
