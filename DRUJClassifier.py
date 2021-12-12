@@ -37,6 +37,24 @@ def read_xray(path, voi_lut = True, fix_monochrome = True):
         
     return data
 
+# Get path prefix for reading and saving files
+
+layout = [  [sg.Text("What is the path where you will store files? For example: C:/Classifier/")],     
+            [sg.Input()],
+            [sg.Button('Ok')] ]
+
+window = sg.Window('Path Prefix', layout)      
+                                                
+
+event, values = window.read()                   
+
+filenamePrefix = values[0]
+filenameCombView = filenamePrefix+"myFigure.png"
+
+window.close()                                 
+
+
+
 # Filenames for DICOM images
 
 filename01 = sg.popup_get_file('Enter the file for the PA View')
@@ -102,7 +120,7 @@ for k in range(500):
 plt.figure(figsize=(6, 3))
 plt.imshow(ComboView, cmap='gray') 
 plt.title("Classified fracture, Combined View") 
-plt.savefig('C:/Users/AnLWells/Documents/CapstoneProject/Classifier/myFigure.png')
+plt.savefig(filenameCombView)
 
 # Reshape the input to match the input to the model
 
@@ -111,12 +129,12 @@ ComboReduce = np.reshape(ComboReduce,(1,500,1050,1))
 # Load and run the model
 
 # load json and create model
-json_file = open('C:/Users/AnLWells/Documents/CapstoneProject/Classifier/model.json', 'r')
+json_file = open(filenamePrefix+'model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
-loaded_model.load_weights("C:/Users/AnLWells/Documents/CapstoneProject/Classifier/model.h5")
+loaded_model.load_weights(filenamePrefix+"model.h5")
 print(" ")
 print("Loaded model from disk")
 # evaluate loaded model on test data
@@ -132,16 +150,16 @@ classes_x=np.argmax(predict_x,axis=1)
 if classes_x==0:
     str01=" Type of fracture is I"
     str05=" A typical type I fracture is shown with the classified fracture below"
-    filename04 = 'C:/Users/AnLWells/Documents/CapstoneProject/Classifier/TypeI.png'
+    filename04 = filenamePrefix+'TypeI.png'
 else:
     if classes_x==1:
         str01=" Type of fracture is II"
         str05=" A typical type II fracture is shown with the classified fracture below"
-        filename04 = 'C:/Users/AnLWells/Documents/CapstoneProject/Classifier/TypeII.png'
+        filename04 = filenamePrefix+'TypeII.png'
     else:
         str01=" Type of fracture is III"
         str05=" A typical type III fracture is shown with the classified fracture below"
-        filename04 = 'C:/Users/AnLWells/Documents/CapstoneProject/Classifier/TypeIII.png'
+        filename04 = filenamePrefix+'TypeIII.png'
 
 str02=' Type I:   ' + str(round(predict_x[0,0]*100,2))
 str03=' Type II:  ' + str(round(predict_x[0,1]*100,2))
