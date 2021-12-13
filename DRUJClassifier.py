@@ -1,12 +1,15 @@
-# -*- coding: utf-8 -*-
+                # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 30 09:40:03 2021
 
 @author: AnLWells
+
+DRUJ Classifier
 """
 
 # Load required packages
 
+import pandas as pd
 import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 from keras.models import model_from_json
@@ -53,7 +56,20 @@ filenameCombView = filenamePrefix+"myFigure.png"
 
 window.close()                                 
 
+# Ask whether the images are for a left hand or a right hand
 
+layout = [  [sg.Text("Are the images for a left hand or a right hand? (L/R)")],     
+            [sg.Input()],
+            [sg.Button('Ok')] ]
+
+window = sg.Window('Left or Right', layout)      
+                                                
+
+event, values = window.read()                   
+
+Hand01 = values[0]
+
+window.close()                                 
 
 # Filenames for DICOM images
 
@@ -62,44 +78,170 @@ filename02 = sg.popup_get_file('Enter the file for the Oblique View')
 filename03 = sg.popup_get_file('Enter the file for the Lateral View')
 
 # Load and look at the images
+# Determine where to crop the images
 
 img1 = read_xray(filename01)
 plt.figure(figsize = (12,12))
 plt.imshow(img1, 'gray')
 plt.title("PA View")
-plt.show
+plt.savefig(filenamePrefix + 'PAView.png')
+
+# Determine crop height
+
+layoutPAH =  [   [sg.Text("What is the crop height? 0 start from top, 0.5 centered, 1 start at bottom")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'PAView.png')] ]
+
+window = sg.Window("Crop Height", layoutPAH)
+
+event, values = window.read()
+
+CHPA = values[0]
+CHPA = float(CHPA)
+
+window.close()
+
+# Determine crop width
+
+layoutPAW =  [   [sg.Text("What is the crop width? 0 start from left, 0.5 centered, 1 start at right")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'PAView.png')] ]
+
+window = sg.Window("Crop Width", layoutPAW)
+
+event, values = window.read()
+
+CWPA = values[0]
+CWPA = float(CWPA)
+
+window.close()
 
 
 img2 = read_xray(filename02)
 plt.figure(figsize = (12,12))
 plt.imshow(img2, 'gray')
 plt.title("Oblique Veiw")
-plt.show
+plt.savefig(filenamePrefix + 'ObView.png')
+
+# Determine crop height
+
+layoutObH =  [   [sg.Text("What is the crop height? 0 start from top, 0.5 centered, 1 start at bottom")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'ObView.png')] ]
+
+window = sg.Window("Crop Height", layoutObH)
+
+event, values = window.read()
+
+CHOb = values[0]
+CHOb = float(CHOb)
+
+window.close()
+
+# Determine crop width
+
+layoutObW =  [   [sg.Text("What is the crop width? 0 start from left, 0.5 centered, 1 start at right")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'ObView.png')] ]
+
+window = sg.Window("Crop Width", layoutObW)
+
+event, values = window.read()
+
+CWOb = values[0]
+CWOb = float(CWOb)
+
+window.close()
 
 
 img3 = read_xray(filename03)
 plt.figure(figsize = (12,12))
 plt.imshow(img3, 'gray')
 plt.title("Lateral View")
-plt.show
+plt.savefig(filenamePrefix + 'LView.png')
+
+# Determine crop height
+
+layoutLH =  [   [sg.Text("What is the crop height? 0 start from top, 0.5 centered, 1 start at bottom")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'LView.png')] ]
+
+window = sg.Window("Crop Height", layoutLH)
+
+event, values = window.read()
+
+CHL = values[0]
+CHL = float(CHL)
+
+window.close()
+
+# Determine crop width
+
+layoutLW =  [   [sg.Text("What is the crop width? 0 start from left, 0.5 centered, 1 start at right")],     
+                [sg.Input()],                     
+                [sg.Button('Ok')],
+                [sg.Image(filenamePrefix+'LView.png')] ]
+
+window = sg.Window("Crop Width", layoutLW)
+
+event, values = window.read()
+
+CWL = values[0]
+CWL = float(CWL)
+
+window.close()
 
 
 plt.figure(figsize = (12,12))
 plt.show
 
-# Crop images
+# Crop images and reverse right hands so that the radius is always on the right of the image
 
 x1 = img1.shape
-img1cr = img1[np.round(x1[0]/2).astype(int)-500:np.round(x1[0]/2).astype(int)+500, 
-              np.round(x1[1]/2).astype(int)-350:np.round(x1[1]/2).astype(int)+350]
+PAH0 = np.round(CHPA*(x1[0]-1000)).astype(int)
+PAW0 = np.round(CWPA*(x1[1]-700)).astype(int)
+
+img1cr = img1[PAH0:PAH0+1000, 
+              PAW0:PAW0+700]
+
+if Hand01=="R" or Hand01=="r":
+    img1crpd = pd.DataFrame(img1cr)
+    img1cr = pd.DataFrame(img1crpd.iloc[:,699])
+    for i in range(699):
+        img1cr = img1cr.join(pd.DataFrame(img1crpd.iloc[:,698-i]))
 
 x2 = img2.shape
-img2cr = img2[np.round(x2[0]/2).astype(int)-500:np.round(x2[0]/2).astype(int)+500, 
-              np.round(x2[1]/2).astype(int)-350:np.round(x2[1]/2).astype(int)+350]
+ObH0 = np.round(CHOb*(x2[0]-1000)).astype(int)
+ObW0 = np.round(CWOb*(x2[1]-700)).astype(int)
+
+img2cr = img2[ObH0:ObH0+1000, 
+              ObW0:ObW0+700]
+
+if Hand01=="R" or Hand01=="r":
+    img2crpd = pd.DataFrame(img2cr)
+    img2cr = pd.DataFrame(img2crpd.iloc[:,699])
+    for i in range(699):
+        img2cr = img2cr.join(pd.DataFrame(img2crpd.iloc[:,698-i]))
+
 
 x3 = img3.shape
-img3cr = img3[np.round(x3[0]/2).astype(int)-500:np.round(x3[0]/2).astype(int)+500, 
-              np.round(x3[1]/2).astype(int)-350:np.round(x3[1]/2).astype(int)+350]
+LH0 = np.round(CHL*(x3[0]-1000)).astype(int)
+LW0 = np.round(CWL*(x3[1]-700)).astype(int)
+
+img3cr = img3[LH0:LH0+1000, 
+              LW0:LW0+700]
+
+if Hand01=="R" or Hand01=="r":
+    img3crpd = pd.DataFrame(img3cr)
+    img3cr = pd.DataFrame(img3crpd.iloc[:,699])
+    for i in range(699):
+        img3cr = img3cr.join(pd.DataFrame(img3crpd.iloc[:,698-i]))
+
 
 # Make combined view of images
 
@@ -171,7 +313,7 @@ layout10 = [[sg.Listbox(values=[' Report for Classification of DRUJ Fracture',
                                 ' ', str02, str03, str04,
                                 ' ', ' ', str05], size=(60,15), font=('Times', 14))],             
             [sg.Image(filename04)],                        
-            [sg.Image('C:/Users/AnLWells/Documents/CapstoneProject/Classifier/myFigure.png')],
+            [sg.Image(filenamePrefix+'myFigure.png')],
             [sg.Button('Ok')]]
 
 window = sg.Window('Model Output',layout10)
