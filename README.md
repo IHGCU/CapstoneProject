@@ -14,3 +14,4 @@ The files contained in this repository are:
 8. model.json - a file with the saved model characteristics
 9. DRUJClassifier.py - A Python script for running the classifier. This file requires the test cases and the model characteristics and model weights to run. There are also images of typical type I, II, and III fractures that are needed. They are in the Classifier folder. This file implements some elements of the GUI. 
 10. Classifier - a folder that contains images of typical type I, II, and III fractures
+11. DSC590_0500WellsFinalPresentation.mp4 - Video recording of presentation of the final project
