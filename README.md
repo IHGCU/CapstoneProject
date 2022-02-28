@@ -18,4 +18,4 @@ The files contained in this repository are:
 12. System Administration Guide for Distal Radius Fracture Classifier.docx - The system administration guid for the classifier
 13. DSC590_0500WellsFinalPresentation.mp4 - Video recording of presentation of the final project
 14. DSC590_0500WellsDemonstration.mp4 - Video demonstration of the classifier
-15. CapstoneProjectFinalReport.docx - Final Report. Includes all milestones and conclusion
+15. CapstoneProjectFinalReport.pdf - Final Report. Includes all milestones and conclusion
