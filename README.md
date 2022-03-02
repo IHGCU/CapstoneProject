@@ -19,3 +19,4 @@ The files contained in this repository are:
 13. DSC590_0500WellsFinalPresentation.mp4 - Video recording of presentation of the final project
 14. DSC590_0500WellsDemonstration.mp4 - Video demonstration of the classifier
 15. CapstoneProjectFinalReport.pdf - Final Report. Includes all milestones and conclusion
+16. DSC-590-0500 ALWells DigitalPoster.pptx - Digital poster of capstone project
